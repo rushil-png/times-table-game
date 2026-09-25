@@ -2,68 +2,53 @@ import random
 import os
 import time
 
-def difficulty_level():
-    while True:
-        try:
-            level = int(input("Select difficulty level (1-3): "))
+def Difficulty():
+    try:
+        Choice = input("1.Easy (1 - 5 times table) \n2.Medium (1 - 10 times table) \n3.Hard (1 - 15 times table)\nSelect a number for difficulty : ")
+        if int(Choice) == 1:
+            return 5
+        elif int(Choice) == 2:
+            return 10
+        elif int(Choice) == 3:
+            return 15
+        else: 
+            print("Enter numbers : 1, 2, 3")
+    except ValueError:
+        print("Enter an integer for the difficulty")
 
-            if level == 1:
-                print("You have selected Easy level.")
-                return 5
-
-            elif level == 2:
-                print("You have selected Medium level.")
-                return 10
-
-            elif level == 3:
-                print("You have selected Hard level.")
-                return 15
-
-            else:
-                print("Please select a valid difficulty level (1-3).")
-
-        except ValueError:
-            print("Please enter a number between 1 and 3.")
-
-
-def generate_question(max_num):
-    num1 = random.randint(1, max_num)
-
-    if max_num == 15:
-        num2 = random.randint(1, 15)
+def GenerateQuestion(max_num):
+    if (max_num == 15):
+        num1 = random.randint(1,max_num-1)
+        num2 = random.randint(1,max_num)
+        if num2 >= 10:
+            num2 +=1
     else:
-        num2 = random.randint(1, 12)
-
-    result = num1 * num2
-
+        num1 = random.randint(1,12)
+        num2 = random.randint(1,max_num)
+    result = num1*num2
     return num1, num2, result
 
-
 def Main():
-    score = 0
-    max_num = difficulty_level()
-
-    while True:
-        first_num, second_num, correct_answer = generate_question(max_num)
-
+    Score = 0
+    max_num = Difficulty()
+    while True :
+        first_num, second_num, answer = GenerateQuestion(max_num)
         try:
-            user_input = int(input(f"What is {first_num} x {second_num}? "))
-
-        except ValueError:
-            print("Please enter a valid number.")
+            user_Input = int(input(f"What is {first_num} X {second_num} : "))
+        except ValueError: #otherthan
+            print("Enter an integer")
+            time.sleep(1)
+            os.system('cls'
             continue
-
-        if user_input == correct_answer:
-            print("Correct answer")
-            score += 1
+        if (user_Input != (answer)):
+            print(f"incorrect, correct answer is {answer}")
+            break
+        else:
+            Score +=1
+            print("The score is ", Score)
             time.sleep(1)
             os.system('cls')
 
-        else:
-            print("Incorrect answer, the answer is:", correct_answer)
-            break
-
-    print(f"Your final score is: {score}")
-
+    print("Your final score is, ", Score)   
 
 Main()
