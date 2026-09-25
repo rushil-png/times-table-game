@@ -1,26 +1,34 @@
 import random
+import os
+import time
 
-def GenerateQuestion():
-    num1 = random.randint(1,12)
-    num2 = random.randint(1,12)
-    result = num1*num2
+
+def generate_question():
+    num1 = random.randint(1, 12)
+    num2 = random.randint(1, 12)
+    result = num1 * num2
     return num1, num2, result
 
 def Main():
-    Score = 0
-    while True :
-        first_num, second_num, answer = GenerateQuestion()
+    score = 0
+
+    while True:
+        first_num, second_num, correct_answer = generate_question()
         try:
-            user_Input = int(input(f"What is {first_num} X {second_num} : "))
-        except ValueError: #otherthan
-            print("Enter an integer")
+            user_input = int(input(f"What is {first_num} x {second_num}? "))
+        except ValueError:
+            print("Please enter a valid number.")
             continue
 
-        if (user_Input != (answer)):
-            print(f"incorrect, correct answer is {answer}")
-            break
+        if user_input == correct_answer:
+            print("Correct answer")
+            score += 1
+            time.sleep(1)
+            os.system('cls')
         else:
-            Score +=1
-            print("The score is ", Score)
+            print("Incorrect answer, the answer is: ", correct_answer)
+            break
+
+    print(f"Your final score is: {score}")
 
 Main()
