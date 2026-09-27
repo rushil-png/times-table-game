@@ -2,6 +2,25 @@ import random
 import os
 import time
 
+
+def leaderboard():
+    folder = os.path.dirname(os.path.abspath(__file__))
+    leaderboard_file = os.path.join(folder, "LB.txt")
+    if os.path.exists(leaderboard_file):
+        with open(leaderboard_file, "r") as file:
+            scores = [int(line.strip()) for line in file.readlines()]
+            scores.sort(reverse=True)
+            print("Leaderboard:")
+            for i, score in enumerate(scores[:5], start=1):
+                print(f"{i}. {score}")
+
+def save_score(score):
+    folder = os.path.dirname(os.path.abspath(__file__))
+    leaderboard_file = os.path.join(folder, "LB.txt")
+
+    with open(leaderboard_file, "a") as file:
+        file.write(f"{score}\n")
+
 def difficulty_level():
     while True:
         try:
@@ -66,6 +85,8 @@ def Main():
 
         else:
             print("Incorrect answer, the answer is:", correct_answer)
+            save_score(score)
+            leaderboard()
             break
 
     print(f"Your final score is: {score}")
